@@ -12,28 +12,28 @@
 class Zygo < Formula
   desc "Daemonless, rootless warm sandbox runtime with Docker's ergonomics"
   homepage "https://github.com/mhmtskrc2/zygo"
-  version "0.1.1"
+  version "0.1.2"
   license "Apache-2.0"
 
   on_macos do
     on_arm do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.1/zygo-aarch64-apple-darwin.tar.gz"
-      sha256 "e90a40e1d23926513ce57b1c7ba87f2b20d4d5ceb50a29a410525537b867b19e"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.2/zygo-aarch64-apple-darwin.tar.gz"
+      sha256 "900e022cfa1fd2e6a7397b84914de07b8024e92b7e0440fe69d565a5cf8d48ad"
     end
     on_intel do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.1/zygo-x86_64-apple-darwin.tar.gz"
-      sha256 "9e192c68955ff8cef12795ef0eb40a345075f9f230680967ab7565e8cd306192"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.2/zygo-x86_64-apple-darwin.tar.gz"
+      sha256 "4883b17be122efc74d4561fa8d5203fa7879a4cf75ee1b384bbd678961c4809b"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.1/zygo-aarch64-unknown-linux-musl.tar.gz"
-      sha256 "f250188432747ef9a6ad6649bcfff8283d43e838527459e4d3571dd0edc7b6c9"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.2/zygo-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "97375d98f1d2dd313cf2daca8c575246d578a2711b18414ab5637118d54a8e7f"
     end
     on_intel do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.1/zygo-x86_64-unknown-linux-musl.tar.gz"
-      sha256 "56586c2cdde85cc886932314abf715e27c787f7b76d55fa2570ab0c051741d51"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.2/zygo-x86_64-unknown-linux-musl.tar.gz"
+      sha256 "21206d2be4f7ec63714c5d887fbbe4e4b62748e8c72a866591520b967e745ad5"
     end
   end
 
@@ -69,7 +69,7 @@ class Zygo < Formula
         zygo run python:3.12-slim python3 -c 'print("hello")'
 
       The first command takes about a minute while the VM is created. Crossing
-      into it costs ~100 ms per command, which hides the warm path from a Mac
+      into it costs about 22 ms per command, which hides the warm path from a Mac
       shell; it is still there through `zygo api` and the SDKs.
     EOS
   end
