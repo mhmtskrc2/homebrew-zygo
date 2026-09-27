@@ -12,28 +12,28 @@
 class Zygo < Formula
   desc "Daemonless, rootless warm sandbox runtime with Docker's ergonomics"
   homepage "https://github.com/mhmtskrc2/zygo"
-  version "0.1.3"
+  version "0.1.4"
   license "Apache-2.0"
 
   on_macos do
     on_arm do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.3/zygo-aarch64-apple-darwin.tar.gz"
-      sha256 "85eaa8e0cc2c4cd778ca9828f8cdb625d87f10846dd2f119bf591807bb12e42a"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.4/zygo-aarch64-apple-darwin.tar.gz"
+      sha256 "781c6d622285ffff6dd4b08d6a43efeea0ed42a40962df904c529883d55d9851"
     end
     on_intel do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.3/zygo-x86_64-apple-darwin.tar.gz"
-      sha256 "bae8f9b17777c09211f59936a42904a5c813a4cbc8c2f8f051debe9e29c7f8cc"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.4/zygo-x86_64-apple-darwin.tar.gz"
+      sha256 "51c3d2a1b019aa7690516d860e45c0a2e627eba2648a6a372fef898b5d5916c2"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.3/zygo-aarch64-unknown-linux-musl.tar.gz"
-      sha256 "c0b744cd83997da33de24ca622d12d657b5b68f14eac5f493c40177e13c28f87"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.4/zygo-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "0f0e3e4de5abbe5fbe4bf7d57610da620fe52a4ebb9d3af206e18a27d16425f8"
     end
     on_intel do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.3/zygo-x86_64-unknown-linux-musl.tar.gz"
-      sha256 "b1ee9dee247b688637deb8167bb90e4edb8f4fda9ccd9e56eba3f79cf0eaf9ed"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.4/zygo-x86_64-unknown-linux-musl.tar.gz"
+      sha256 "bf1d6e2c6ea7f031f7d77fa3cc808abd96477ee4c6e2bbdad3778d8720666994"
     end
   end
 
