@@ -3,37 +3,39 @@
 # in from what the release workflow just produced. A formula in the repository
 # with placeholder hashes in it is a formula nobody can install.
 #
-# What makes this different from an ordinary Rust formula is the second file.
-# On a Mac, `zygo` is a shim: every sandbox command is forwarded into a Linux
-# VM that Zygo starts and manages, because sandboxes are Linux. The shim looks
-# for the Linux build at `../share/zygo/zygo-linux-<arch>` relative to itself
-# (`shim::linux_binary`), so the bottle has to carry one — installing the Mac
-# binary alone installs something that cannot run a sandbox.
+# What makes this different from an ordinary Rust formula is the two other
+# files. On a Mac, `zygo` is a shim: every sandbox command is forwarded into a
+# Linux VM that Zygo starts and manages, because sandboxes are Linux. The shim
+# looks beside itself, in `../share/zygo/`, for the Linux build it runs there
+# (`zygo-linux-<arch>`, `shim::linux_binary`) and for the Lima template the VM
+# is created from (`lima.yaml`, `shim::template_path`), so the bottle has to
+# carry both — installing the Mac binary alone installs something that cannot
+# run a sandbox.
 class Zygo < Formula
   desc "Daemonless, rootless warm sandbox runtime with Docker's ergonomics"
   homepage "https://github.com/mhmtskrc2/zygo"
-  version "0.1.7"
+  version "0.1.9"
   license "Apache-2.0"
 
   on_macos do
     on_arm do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.7/zygo-aarch64-apple-darwin.tar.gz"
-      sha256 "8ae0863b7b2fe9c19d34e2d98da7806a139014e8afc52e05c9531c55680ff652"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.9/zygo-aarch64-apple-darwin.tar.gz"
+      sha256 "189c4f89fd84e52e50f730163b12faab82bef6c3b1c83ed5aef8aaa3efe78fb5"
     end
     on_intel do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.7/zygo-x86_64-apple-darwin.tar.gz"
-      sha256 "997657ad43a66a3196b6d7ee4d51d9eab903c6419f1b88b291b380a3ecd5264a"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.9/zygo-x86_64-apple-darwin.tar.gz"
+      sha256 "f9f0089b6d64c72c8e63fb2d9fcf40d159055d2ab69e6d948e3a16e5d594602e"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.7/zygo-aarch64-unknown-linux-musl.tar.gz"
-      sha256 "e6533fa7c74d4fcf766fd151668339672dc6ea3984f9d3759079b71dc13b08a5"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.9/zygo-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "5f01d92f16b027095fcb304cfd7926b871efe749bb884124179816c8090f9125"
     end
     on_intel do
-      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.7/zygo-x86_64-unknown-linux-musl.tar.gz"
-      sha256 "aa554aaea62234b4d15a3f8470f3e2a174d10fe1c99f18b50f48e26c0e4d18fa"
+      url "https://github.com/mhmtskrc2/zygo/releases/download/v0.1.9/zygo-x86_64-unknown-linux-musl.tar.gz"
+      sha256 "9b56cabf99f7034e7e521b65ae4f29b72d2c677b51e9b2672b2f6eeb571db58a"
     end
   end
 
@@ -48,9 +50,9 @@ class Zygo < Formula
     if OS.mac?
       bin.install "bin/zygo"
       # Beside the binary, where the shim looks. `pkgshare` is
-      # `share/zygo`, which is the path `shim::linux_binary` builds from
-      # `current_exe()/../share/zygo/zygo-linux-<arch>`.
-      pkgshare.install Dir["share/zygo/zygo-linux-*"]
+      # `share/zygo`, which is the path `shim::linux_binary` and
+      # `shim::template_path` build from `current_exe()/../share/zygo/`.
+      pkgshare.install Dir["share/zygo/zygo-linux-*"], "share/zygo/lima.yaml"
     else
       bin.install "zygo"
     end
@@ -84,8 +86,13 @@ class Zygo < Formula
     assert_match(/kernel|namespace|cgroup|Lima|VM/i, output)
 
     if OS.mac?
-      assert_predicate pkgshare/"zygo-linux-#{Hardware::CPU.arch}", :exist?,
+      # Named as Rust names the architecture, which is what the shim asks for:
+      # Homebrew calls Apple silicon `arm64`, the file says `aarch64`.
+      arch = Hardware::CPU.arm? ? "aarch64" : "x86_64"
+      assert_predicate pkgshare/"zygo-linux-#{arch}", :exist?,
                        "the Linux build the shim forwards into is missing"
+      assert_predicate pkgshare/"lima.yaml", :exist?,
+                       "the template the shim creates the Linux VM from is missing"
     end
   end
 end
